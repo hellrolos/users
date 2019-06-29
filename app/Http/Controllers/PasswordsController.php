@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 use App\Consultas\DBModel;
+use App\Mail\MessageReceived;
+use App\Mail\MessageSent;
+use Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Validator;
-use Carbon;
 
-class PasswordsController.php extends Controller
+class PasswordsController extends Controller
 {
     protected $consultas;
 
@@ -45,8 +48,10 @@ class PasswordsController.php extends Controller
         			if($IdPerUsuario == $IdPerTrabajador)
         			{
         				$token = $this->consultas->createToken($correo);
-        				dd($token);
+        				//dd($token);
         				//envía correo en esta seccion lo cual queda pendiente
+        				/*Mail::to($correo)->queue(new MessageSent($token));*/
+        				return new MessageSent($token);
         				return back()->with(['alert' => 'Se ha enviado un correo con el link para el cambio de contraseña']);
         			} else {
         				return back()->with(['alert' => 'Introduzca los valores de manera correcta.']);

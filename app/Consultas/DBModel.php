@@ -81,5 +81,15 @@ class DBModel{
     	$user->password = Hash::make($password);
     	$user->save();
     }
+
+    public function getPersonData($id){
+        $sql = "SELECT nombre, ap_paterno, ap_materno FROM persona WHERE id='$id'";
+        $result = DB::select($sql);
+        if($result){
+            return $result;
+        } else {
+            return false;
+        }
+    }
 }
 ?>
