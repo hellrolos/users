@@ -91,5 +91,124 @@ class DBModel{
             return false;
         }
     }
+
+    public function isStudent($personaID){
+        $sql = "SELECT * from alumno where activo=1 and fk_id_persona='$personaID'";
+        $result = DB::select($sql);
+        if($result){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function isEmployee($personaID){
+       $sql = "SELECT * from personal where activo=1 and fk_id_persona='$personaID'";
+        $result = DB::select($sql);
+        if($result){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getNombre($personaID){
+        $sql = "SELECT nom, app, apm from persona where activo=1 and id='$personaID'";
+        $result = DB::select($sql);
+        if($result){
+            $res = $result[0]->nom.' '.$result[0]->app.' '.$result[0]->apm;
+            return trim($res);
+        } else {
+             return 'Registro no encontrado';
+        }
+    }
+
+    public function getCurp($personaID){
+        $sql = "SELECT curp from persona where activo=1 and id='$personaID'";
+        $result = DB::select($sql);
+        if($result){
+            $res = (is_null($result[0]->curp) ? 'Sin Capturar la Curp' : $result[0]->curp);
+            return $res;
+        } else {
+             return 'Registro no encontrado';
+        }
+    }
+
+    public function getNoControl($personaID){
+        $sql = "SELECT nocontrol from alumno where activo=1 and fk_id_persona='$personaID'";
+        $result = DB::select($sql);
+        if($result){
+            $res = (is_null($result[0]->nocontrol) ? 'Sin Capturar el NoControl' : $result[0]->nocontrol);
+            return $res;
+        } else {
+            return 'Numero de Control no encontrado';
+        }
+    }
+
+    public function getCarrera($personaID){
+        $sql = "SELECT c.nombre FROM alumno as a, tecnologico_plan as tp, plan as p, carrera as c WHERE c.id=p.fk_id_carrera and p.id=tp.fk_id_plan and tp.id=a.fk_id_tecnologicoplan and a.fk_id_persona='$personaID'";
+        $result = DB::select($sql);
+        if($result){
+            $res = (is_null($result[0]->nombre) ? 'Sin Capturar nombre de Carrera' : $result[0]->nombre);
+            return $res;
+        } else {
+            return 'Carrera no encontrada';
+        }
+    }
+
+    public function getPeriodo($personaID){
+        $sql = "SELECT p.nombre FROM alumno as a, periodo as p  WHERE p.id=a.fk_id_periodoingreso and a.fk_id_persona='$personaID'";
+        $result = DB::select($sql);
+        if($result){
+            $res = (is_null($result[0]->nombre) ? 'Sin Capturar nombre de Periodo' : $result[0]->nombre);
+            return $res;
+        } else {
+            return 'Periodo no encontrado';
+        }
+    }
+
+    public function getSemestre($personaID){
+        return '7';
+    }
+
+    public function getPromedio($personaID){
+       $sql = "SELECT a.promedio FROM alumno as a WHERE a.fk_id_persona='$personaID'";
+        $result = DB::select($sql);
+        if($result){
+            $res = (is_null($result[0]->promedio) ? 'Sin Capturar' : $result[0]->promedio);
+            return $res;
+        } else {
+            return 'Promedio no encontrado';
+        }
+    }
+
+    public function getEspecialidad($personaID){
+        return 'Sistemas Distribuidos';
+    }
+
+    public function getRFC($personaID){
+        return 'VIMR880822SX7';
+    }
+
+    public function getDepto($personaID){
+        return 'Centro de Cómputo';
+    }
+
+    public function getOficina($personaID){
+        return 'Coordinación de Desarrollo de Software';
+    }
+
+    public function getIngreso($personaID){
+        return '1 de Junio de 2014';
+    }
+
+    public function getPlaza($personaID){
+        return 'A08 - Secretaria Bilingue/110071456A0800300.0000103';
+    }
+
+    public function getPuesto($personaID){
+        return 'Programador';
+    }
+
 }
 ?>
