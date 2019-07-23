@@ -47,7 +47,7 @@ class DashboardController extends Controller
     		'semestre' => $this->consultas->getSemestre($user->fk_id_persona),
     		'promedio' => $this->consultas->getPromedio($user->fk_id_persona),
     		'especialidad' => $this->consultas->getEspecialidad($user->fk_id_persona),
-    		];/*tablas: alumno(#control, promedio) periodo(periodo_ingreso por medio del FK de alumno) tecnologico_plan, plan, carrera(para obtener la carrera) tecnologico_plan(especialidad), preguntar como usar la funcion semestre xD*/
+    		];/*tablas: alumno(#control, promedio) periodo(periodo_ingreso por medio del FK de alumno) tecnologico_plan, plan, carrera(para obtener la carrera) tecnologico_plan(especialidad), preguntar como usar la funcion semestre*/
     	}
     	if($tipoPersona == 'E' or $tipoPersona == 'M'){
     		$datosPersonal = [
