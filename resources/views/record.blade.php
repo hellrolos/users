@@ -1,0 +1,1 @@
+Aqui se muestra que se genero su registro correctamente y la info necesaria junto al boton para mostrar el PDF
