@@ -320,8 +320,6 @@ class DBModel{
     }
 
     public function getDateFromFortnight($quincena, $year){
-        //primero detectar si es par o impar, si es par no hacer nada solo dividir entre dos y sabemos el mes que es, si es impar se le suma uno y se hace la division
-        //y se obtiene el mes correspondiente, de ahí se le agrea si es 1 de o 16 de seguido del mes y el año que ya debe estar calculado antes.
         if($quincena % 2 == 0){
             $mes = $quincena/2;
             $fecha = Carbon::createFromDate($year, $mes, '16')->formatLocalized('%d de %B del %Y');
@@ -369,13 +367,32 @@ class DBModel{
                 FROM
                     persona as p
                 WHERE
-                    id = '9d5d036f-f34f-11e8-b246-7ec04328bc85'";
+                    id = '$personalID'";
         $result = DB::select($sql);
         if($result){
             $res = (is_null($result[0]->sexo) ? 'Sin sexo Capturado' : $result[0]->sexo);
             return $res;
         } else {
             return 'Registro del sexo no encontrado';
+        }
+    }
+
+    public function getWebRoles($personalID){
+        $sql = "SELECT
+                    ur.nombre, a.clave as sitio, r.clave as rol
+                FROM
+                    user_rol as ur
+                    LEFT JOIN user as u ON ur.fk_id_user = u.id
+                    LEFT JOIN aplicacion_rol as ar ON ur.fk_id_aplicacionrol = ar.id
+                    LEFT JOIN rol as r ON ar.fk_id_rol = r.id
+                    LEFT JOIN aplicacion as a ON ar.fk_id_aplicacion = a.id
+                where
+                    u.fk_id_persona = '$personalID'";
+        $result = DB::select($sql);
+        if($result){
+            return $result;
+        } else {
+            return NULL;
         }
     }
 
